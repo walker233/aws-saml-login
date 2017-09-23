@@ -203,9 +203,16 @@ def authenticate(url, user, password):
 
         response2 = session.get(response2.json()['successUrl'])
     else:
-
         # NOTE: parameters are hardcoded for Shibboleth IDP
-        data = {'j_username': user, 'j_password': password, 'submit': 'Login'}
+        data = {'j_username': user, 'j_password': password}
+        idpForm = BeautifulSoup(response.text, 'html.parser')
+        #find the submit button name and value, as the name changes
+        for submittag in idpForm.find_all(re.compile('BUTTON|button')):
+            name = submittag.get('name', '')
+            value = submittag.contents[0]
+            if submittag.get('type', '') == 'submit':
+                data[name] = value
+
         response2 = session.post(response.url, data=data)
 
     saml_xml = get_saml_response(response2.text)
