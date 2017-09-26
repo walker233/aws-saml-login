@@ -41,22 +41,27 @@ class Duo(object):
             return True
         return False
 
-        # duoMatch = re.search("Duo.init", response.text)
-        #
-        # return duoMatch is not None
-
     def isFoundDuoIframe(self, response):
-        duoMatch = re.search('duo_iframe.*data-host', response.text, re.DOTALL)
-        # duoMatch = re.search('<iframe id="duo_iframe"(.*)>.*</iframe>', response.text,re.DOTALL)
+        #duoMatch = re.search('duo_iframe.*data-host', response.text, re.DOTALL)
+        duoMatch = re.search('(<iframe id="duo_iframe".*>.*</iframe>)', response.text,re.DOTALL)
         if duoMatch:
-            # self.attributes = ...
+            self.attributes = Duo.getDuoAttributesFromFrame(self, duoMatch.group(1))
             self.detectedDuo = True
             self.duoType = "iframe"
             return True
         return False
 
-    def getDuoAttributesFromFrame(self,duoFrameMatch):
-        return {}
+    def getDuoAttributesFromFrame(self,duoFrame):
+        # print(duoFrame)
+        duoSoup = BeautifulSoup(duoFrame, 'html.parser')
+        # for attrib in duoSoup.get_attribute_list('data-host'):
+        #    print(attrib)
+        duoAttributes = {}
+        for iframe in duoSoup.find_all(re.compile('iframe|IFRAME')):
+            for key in iframe:
+                print(key)
+
+        return duoAttributes
 
     def process(self,response,session):
         pass

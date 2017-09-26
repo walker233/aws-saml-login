@@ -101,9 +101,9 @@ def test_duo_get_duo_attributes_fromInit(duo,monkeypatch):
 
 def test_duo_get_duo_attributes_fromIframe(duo, monkeypatch):
     expectedAttributes = {
-            'host': 'api-082f11a6.duosecurity.com',
-            'sig-request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODA4NjY=|6e120783743d8172d53d2d50411749d21a585e8e:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODQxNjY=|abe510d7b3683c093f0e3e9dfb2eebb0503b1a5e',
-            'post-action': '/idp/profile/SAML2/Unsolicited/SSO?execution=e1s2'
+        'host': 'api-082f11a6.duosecurity.com',
+        'sig-request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODA4NjY=|6e120783743d8172d53d2d50411749d21a585e8e:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODQxNjY=|abe510d7b3683c093f0e3e9dfb2eebb0503b1a5e',
+        'post-action': '/idp/profile/SAML2/Unsolicited/SSO?execution=e1s2'
     }
     response = FakeResponse('tests/mock_duoIframeData.html')
     duo.isFound(response)
