@@ -4,6 +4,7 @@ import datetime
 from dateutil.tz import tzutc
 from aws_saml_login.saml import authenticate, assume_role, write_aws_credentials, get_boto3_session
 from aws_saml_login.saml import AssumeRoleFailed
+from aws_saml_login.mfa import Duo
 import tempfile
 import os
 import configparser
@@ -56,3 +57,59 @@ def test_write_aws_credentials(monkeypatch):
 
 def test_authenticate(monkeypatch):
     pass
+
+
+class FakeResponse:
+    def __init__(self,fileName):
+        f = open(fileName)
+        self.text = f.read()
+
+
+@pytest.fixture
+def duo():
+    return Duo()
+
+def test_found_duo_is_found_with_initScript(duo,monkeypatch):
+    response = FakeResponse('tests/mock_duoInitScript.html')
+    assert True == duo.isFound(response)
+
+
+def test_not_found_duo_is_found_with_initScript(duo,monkeypatch):
+    response = FakeResponse('tests/mock_noDuoInitScript.html')
+    assert False == duo.isFound(response)
+
+
+def test_found_duo_is_found_with_iframe_data(duo,monkeypatch):
+    response = FakeResponse('tests/mock_duoIframeData.html')
+    assert True == duo.isFound(response)
+
+def test_not_found_duo_is_found_with_iframe_data(duo,monkeypatch):
+    response = FakeResponse('tests/mock_noDuoInitScript.html')
+    assert False == duo.isFound(response)
+
+
+def test_duo_get_duo_attributes_fromInit(duo,monkeypatch):
+    expectedAttributes = {
+        'host': 'api-082f11a6.duosecurity.com',
+        'sig_request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTU2MTQ=|46d3d2c036d08418cb164bdeab226109372ae996:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTg5MTQ=|1b197044e7b88213ba2325ce88da4034970ad30d',
+        'post_argument': 'signedDuoResponse'
+    }
+    response = FakeResponse('tests/mock_duoInitScript.html')
+    duo.isFound(response)
+
+    assert duo.getDuoAttributes() == expectedAttributes
+
+def test_duo_get_duo_attributes_fromIframe(duo, monkeypatch):
+    expectedAttributes = {
+            'host': 'api-082f11a6.duosecurity.com',
+            'sig-request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODA4NjY=|6e120783743d8172d53d2d50411749d21a585e8e:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODQxNjY=|abe510d7b3683c093f0e3e9dfb2eebb0503b1a5e',
+            'post-action': '/idp/profile/SAML2/Unsolicited/SSO?execution=e1s2'
+    }
+    response = FakeResponse('tests/mock_duoIframeData.html')
+    duo.isFound(response)
+    assert duo.getDuoAttributes() == expectedAttributes
+
+
+
+# def test_duo_process_from_initScript(duo,monkeypatch):
+#     assert False == True

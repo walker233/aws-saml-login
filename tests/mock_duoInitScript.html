@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Duo Login</title>
+    <!-- <link rel="stylesheet" type="text/css" href="/idp/css/duo.css" /> -->
+  </head>
+  <body>
+
+
+    <!-- end DUO -->
+    <script src="/idp/js/Duo-Web-v2.bundled.min.js"></script>
+    <script>
+    Duo.init({
+              'host': 'api-082f11a6.duosecurity.com',
+                      'sig_request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTU2MTQ=|46d3d2c036d08418cb164bdeab226109372ae996:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTg5MTQ=|1b197044e7b88213ba2325ce88da4034970ad30d',
+                              'post_argument': 'signedDuoResponse'
+                                    });
+    </script>
+
+<style>
+#duo_iframe {
+  width: 100%;
+    min-width: 304px;
+      max-width: 620px;
+        height: 360px;
+}
+</style>
+
+<form id="duo_form" class="shibboleth-login-form" method="post">
+      <input type="hidden" name="_eventId" value="proceed" />
+              <iframe id="duo_iframe"  frameborder="0" />
+</form>
+  </body>
+</html>
+
