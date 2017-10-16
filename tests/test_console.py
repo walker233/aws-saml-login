@@ -69,6 +69,7 @@ class FakeResponse:
 def duo():
     return Duo()
 
+
 def test_found_duo_is_found_with_initScript(duo,monkeypatch):
     response = FakeResponse('tests/mock_duoInitScript.html')
     assert True == duo.isFound(response)

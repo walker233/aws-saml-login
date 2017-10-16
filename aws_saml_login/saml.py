@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import os
 import configparser
 import requests
+from aws_saml_login import mfa
 
 
 AWS_CREDENTIALS_PATH = '~/.aws/credentials'
@@ -152,7 +153,7 @@ class AssumeRoleFailed(Exception):
         return 'Assuming role failed: {}'.format(self.msg)
 
 
-def authenticate(url, user, password):
+def authenticate(url, user, password, mfa_type=mfa.MfaNone):
     '''Authenticate against the provided Shibboleth Identity Provider.
 
     Supports Shibboleth or OpenAM.
@@ -214,6 +215,8 @@ def authenticate(url, user, password):
                 data[name] = value
 
         response2 = session.post(response.url, data=data)
+
+    response2 = mfa_type(response2,session).process()
 
     saml_xml = get_saml_response(response2.text)
     if not saml_xml:

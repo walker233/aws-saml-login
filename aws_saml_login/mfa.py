@@ -23,32 +23,50 @@ from bs4 import BeautifulSoup
 #  >
 #  < / iframe >
 
+#Called this way: response2 = mfa_type(response2,session).process()
+
+class MfaNone(object):
+    def __init__(self, response, session):
+        self.response = response
+
+    def process(self):
+        return self.response
+
 class Duo(object):
-    def __init__(self):
+#    def __init__(self, response, session):
+
+    def host(self):
+        return self.host or self.host = self.extract_host()
+
+    def __init__(self, response, session):
+        self.response = response
+        self.session = session
         self.attributes = {}
-        self.detectedDuo = False
         self.duoType = None
 
-    def isFound(self,response):
-        return self.detectedDuo or self.isFoundDuoScript(response) or self.isFoundDuoIframe(response)
+    def process(self):
+        if not isFound():
+            return self.response
+        return self.response
+
+    def isFound(response):
+        return self.isFoundDuoScript(response) or self.isFoundDuoIframe(response)
 
     def isFoundDuoScript(self, response):
         duoMatch = re.search('Duo\.init\(({.*})\);', response.text, re.DOTALL)
         if duoMatch:
-            self.attributes = literal_eval(duoMatch.group(1))
-            self.detectedDuo = True
-            self.duoType = "init"
-            return True
-        return False
+            self.storeDuoMatch(duoMatch, "init", literal_eval(duoMatch.group(1)))
+        return duoMatch is not None
 
     def isFoundDuoIframe(self, response):
         duoMatch = re.search('(<iframe id="duo_iframe".*>.*</iframe>)', response.text,re.DOTALL)
         if duoMatch:
-            self.attributes = Duo.getDuoAttributesFromFrame(self, duoMatch.group(1))
-            self.detectedDuo = True
-            self.duoType = "iframe"
-            return True
-        return False
+            self.storeDuoMatch(duoMatch, "iframe", self.getDuoAttributesFromFrame(self, duoMatch.group(1)))
+        return duoMatch is not None
+
+    def storeDuoMatch(self, match, duoType, attributes):
+            self.duoType = duoType
+            self.attributes = attributes
 
     def getDuoAttributesFromFrame(self,duoFrame):
         duoAttributes = {}
@@ -60,8 +78,6 @@ class Duo(object):
                     duoAttributes[dataMatch.group(1)] = iframe[key]
         return duoAttributes
 
-    def process(self,response,session):
-        pass
 
     def getDuoAttributes(self):
         return self.attributes
