@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Login Service</title>
+    <link rel="stylesheet" type="text/css" href="/idp/css/duo.css">
+    <style>
+      #duo_iframe {
+        width: 100%;
+        min-width: 304px;
+        max-width: 620px;
+        height: 450px;
+      }
+    .container,
+    .container-footer {
+    text-align: center !important;
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+      <div class="container">
+
+        <div class="content">
+          
+            <h3>Authentication with Duo is required for the requested service.</h3>
+
+            <noscript>The Duo service requires JavaScript.</noscript>          
+            <script src="/idp/js/Duo-Web-v2.min.js"></script>
+            <iframe id="duo_iframe"
+                data-host="api-082f11a6.duosecurity.com"
+                data-sig-request="TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODA4NjY=|6e120783743d8172d53d2d50411749d21a585e8e:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODQxNjY=|abe510d7b3683c093f0e3e9dfb2eebb0503b1a5e"
+                data-post-action="/idp/profile/SAML2/Unsolicited/SSO?execution=e1s2"
+                frameborder="0"
+            >
+            </iframe>
+            <form id="duo_form" method="post">
+                <input type="hidden" name="_eventId" value="proceed" />
+
+            </form>
+            
+            <h3 style="text-align: center">
+
+                  <a href="https://iam.alaska.edu/trac/wiki/mfa">Two Factor Authentication with UA Single Sign-On</a>
+            </h3>
+        </div>
+      </div>
+
+      <footer>
+        <div class="container container-footer">
+          <p class="footer-text">University of Alaska</p>
+        </div>
+      </footer>
+    </div>
+</body>
+</html>
