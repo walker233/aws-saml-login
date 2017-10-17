@@ -67,7 +67,7 @@ class FakeResponse:
     def len(self):
         return len(self.text)
 
-@pytest.mark.skip(reason="Don't care right now.")
+# @pytest.mark.skip(reason="Don't care right now.")
 def test_authenticate_takes_mfa_argument(monkeypatch):
     url = 'https://idp.example.com/idp/profile/SAML2/Unsolicited/SSO?providerId=urn:amazon:webservices'
     def mockgetresponse(session, url):
