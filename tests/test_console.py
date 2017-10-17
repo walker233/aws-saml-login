@@ -59,10 +59,6 @@ def test_write_aws_credentials(monkeypatch):
 def test_authenticate(monkeypatch):
     pass
 
-# must generate the following files:
-# tests/mock_saml.html
-# test/mock_aws_response.html
-
 class FakeResponse:
     def __init__(self,fileName):
         f = open(fileName)
