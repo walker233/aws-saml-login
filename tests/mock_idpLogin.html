@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Web Login Service</title>
+        <link rel="stylesheet" type="text/css" href="/idp/css/main.css">
+    </head>
+    <body>
+    <div class="wrapper">
+      <div class="container">
+        <header>
+          <img src="/idp/images/logo.png" alt="logo">
+        </header>
+
+        <div class="content">
+          <div class="column one">
+            
+
+            <form action="/idp/profile/SAML2/Unsolicited/SSO;jsessionid=1qgg2ldco95wmq777pjufogkm?execution=e1s1" method="post">
+
+                                      <legend>
+                Login to AWS Management Console Single Sign-On
+              </legend>
+                                    
+                          <div class="form-element-wrapper">
+
+                <input class="form-element form-field" id="username" name="j_username" type="text" autocorrect="off" autocapitalize="none" autofocus placeholder="Username"
+                	value="">
+              </div>
+
+              <div class="form-element-wrapper">
+
+                <input class="form-element form-field" id="password" name="j_password" type="password" placeholder="Password" value="">
+              </div>
+
+              <div class="form-element-wrapper">
+                <input type="checkbox" name="donotcache" value="1" id="donotcache">
+                <label for="donotcache">Don't Remember Login - No SSO</label>
+               </div>
+            
+                          <div class="form-element-wrapper">
+                <button class="form-element form-button" type="submit" name="_eventId_proceed"
+                    onClick="this.childNodes[0].nodeValue='Logging in, please wait...'"
+                    >Login</button>
+              </div>
+            
+                        </form>
+
+			
+                                                
+          </div>
+          <div class="column two">
+            <ul class="list list-help">
+                              <li class="list-help-item"><a href="https://idp.example.com/idp/loginhelp.jsp"><span class="item-marker">&rsaquo;</span> Help with Username or Password</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="container container-footer">
+          <p class="footer-text">IDP Organization</p>
+        </div>
+      </footer>
+    </div>
+    
+ 	</body>
+</html>

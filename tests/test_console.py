@@ -7,6 +7,8 @@ from aws_saml_login.saml import AssumeRoleFailed
 import tempfile
 import os
 import configparser
+import requests
+from aws_saml_login import mfa
 
 
 def test_assume_role(monkeypatch):
@@ -56,3 +58,32 @@ def test_write_aws_credentials(monkeypatch):
 
 def test_authenticate(monkeypatch):
     pass
+
+# must generate the following files:
+# tests/mock_saml.html
+# test/mock_aws_response.html
+
+class FakeResponse:
+    def __init__(self,fileName):
+        f = open(fileName)
+        self.text = f.read()
+
+    def len(self):
+        return len(self.text)
+
+@pytest.mark.skip(reason="Don't care right now.")
+def test_authenticate_takes_mfa_argument(monkeypatch):
+    url = 'https://idp.example.com/idp/profile/SAML2/Unsolicited/SSO?providerId=urn:amazon:webservices'
+    def mockgetresponse(session, url):
+        response = MagicMock()
+        fr = FakeResponse('tests/mock_idpLogin.html')
+        fr.url = url
+        return fr
+    def mockpostresponse(session, url, data):
+        fr = FakeResponse('tests/mock_saml.html')
+        return fr
+
+    monkeypatch.setattr(requests.Session, 'get', mockgetresponse)
+    monkeypatch.setattr(requests.Session, 'post', mockpostresponse)
+    authenticate(url,"user","password")
+    authenticate(url,"user","password", mfa.MfaNone)
