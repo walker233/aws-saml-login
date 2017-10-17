@@ -1,3 +1,4 @@
+import re
 import boto3
 import codecs
 from xml.etree import ElementTree
@@ -5,7 +6,7 @@ from bs4 import BeautifulSoup
 import os
 import configparser
 import requests
-
+from aws_saml_login import mfa
 
 AWS_CREDENTIALS_PATH = '~/.aws/credentials'
 OPENAM_SEARCH_STRING = 'XUI/#login/&'
@@ -152,7 +153,7 @@ class AssumeRoleFailed(Exception):
         return 'Assuming role failed: {}'.format(self.msg)
 
 
-def authenticate(url, user, password):
+def authenticate(url, user, password, mfa_type=mfa.MfaNone):
     '''Authenticate against the provided Shibboleth Identity Provider.
 
     Supports Shibboleth or OpenAM.
@@ -222,6 +223,10 @@ def authenticate(url, user, password):
     url = get_form_action(response2.text)
     encoded_xml = codecs.encode(saml_xml.encode('utf-8'), 'base64')
     response3 = session.post(url, data={'SAMLResponse': encoded_xml})
+
+    with open('aws_response','w') as f:
+        f.write(response3.text)
+    f.close()
     account_names = get_account_names(response3.text)
 
     roles = get_roles(saml_xml)

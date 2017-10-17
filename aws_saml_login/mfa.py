@@ -1,0 +1,3 @@
+
+class MfaNone(object):
+    pass
