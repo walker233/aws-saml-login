@@ -80,7 +80,7 @@ def test_authenticate_takes_mfa_argument(monkeypatch):
         fr.url = url
         return fr
     def mockpostresponse(session, url, data):
-        fr = FakeResponse('tests/mock_saml.html')
+        fr = FakeResponse('tests/mock_saml_sanitized.html')
         return fr
 
     monkeypatch.setattr(requests.Session, 'get', mockgetresponse)
