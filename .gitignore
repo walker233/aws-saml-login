@@ -9,3 +9,6 @@ dist/
 *.sw*
 .cache
 .idea
+#Leave out potentially senstive files
+tests/mock_saml.html
+test/mock_aws_return.html
