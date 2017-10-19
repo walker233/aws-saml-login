@@ -85,8 +85,11 @@ def test_authenticate_takes_mfa_argument(monkeypatch):
     authenticate(url,"user","password", mfa.MfaNone)
     authenticate(url,"user","password", mfa.Duo)
 
+@pytest.fixture
+def fSession():
+    return requests.Session()
+
 def test_duo_selected_response_has_no_duoInit(monkeypatch):
-    fSession = requests.Session()
     fr = FakeResponse('tests/mock_noDuoInitScript.html')
     duo = mfa.Duo.detect(fr,fSession)
     assert isinstance(duo,mfa.MfaNone)
@@ -95,7 +98,7 @@ def test_duo_selected_response_has_no_duoInit(monkeypatch):
 
 
 def test_duo_select_response_has_duo_script(monkeypatch):
-    fSession = requests.Session()
     fr = FakeResponse('tests/mock_duoInitScript.html')
     duo = mfa.Duo.detect(fr,fSession)
     assert isinstance(duo,mfa.DuoScript)
+
