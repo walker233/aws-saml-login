@@ -84,3 +84,12 @@ def test_authenticate_takes_mfa_argument(monkeypatch):
     authenticate(url,"user","password")
     authenticate(url,"user","password", mfa.MfaNone)
     authenticate(url,"user","password", mfa.Duo)
+
+def test_duo_selected_response_has_no_duoInit(monkeypatch):
+    fSession = requests.Session()
+    fr = FakeResponse('tests/mock_noDuoInitScript.html')
+    duo = mfa.Duo.detect(fr,fSession)
+    assert isinstance(duo,mfa.MfaNone)
+    response2 = duo.process()
+    assert len(response2.text) == len(fr.text)
+
