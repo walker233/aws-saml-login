@@ -83,3 +83,4 @@ def test_authenticate_takes_mfa_argument(monkeypatch):
     monkeypatch.setattr(requests.Session, 'post', mockpostresponse)
     authenticate(url,"user","password")
     authenticate(url,"user","password", mfa.MfaNone)
+    authenticate(url,"user","password", mfa.Duo)
