@@ -97,8 +97,14 @@ def test_duo_selected_response_has_no_duoInit(monkeypatch):
     assert len(response2.text) == len(fr.text)
 
 
-def test_duo_select_response_has_duo_script(monkeypatch):
+def test_duo_selected_response_has_duo_script(monkeypatch):
     fr = FakeResponse('tests/mock_duoInitScript.html')
     duo = mfa.Duo.detect(fr,fSession)
     assert isinstance(duo,mfa.DuoScript)
+    response2 = duo.process()
 
+def test_duo_selected_response_has_duo_iframe(monkeypatch):
+    fr = FakeResponse('tests/mock_duoIframeData.html')
+    duo = mfa.Duo.detect(fr,fSession)
+    assert isinstance(duo,mfa.DuoIframe)
+    response2 = duo.process()
