@@ -93,3 +93,9 @@ def test_duo_selected_response_has_no_duoInit(monkeypatch):
     response2 = duo.process()
     assert len(response2.text) == len(fr.text)
 
+
+def test_duo_select_response_has_duo_script(monkeypatch):
+    fSession = requests.Session()
+    fr = FakeResponse('tests/mock_duoInitScript.html')
+    duo = mfa.Duo.detect(fr,fSession)
+    assert isinstance(duo,mfa.DuoScript)
