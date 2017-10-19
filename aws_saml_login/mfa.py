@@ -18,8 +18,9 @@ class Duo(object):
     def detect(response,session):
         if DuoScript.isFound(response):
             return DuoScript(response,session)
+        elif DuoIframe.isFound(response):
+            return DuoIframe(response,session)
         return MfaNone(response,session)
-
 
 class DuoScript(Duo):
     @staticmethod
@@ -28,6 +29,19 @@ class DuoScript(Duo):
         return duoMatch is not None
 
     def __init__(self, response,session):
+        self.response = response
+        self.session = session
+
+    def process(self):
+        return self.response
+
+class DuoIframe(Duo):
+    @staticmethod
+    def isFound(response):
+        duoMatch = re.search('(<iframe id="duo_iframe".*>.*</iframe>)', response.text, re.DOTALL)
+        return duoMatch is not None
+
+    def __init__(self,response, session):
         self.response = response
         self.session = session
 
