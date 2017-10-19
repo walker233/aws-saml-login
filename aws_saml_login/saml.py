@@ -216,7 +216,7 @@ def authenticate(url, user, password, mfa_type=mfa.MfaNone):
 
         response2 = session.post(response.url, data=data)
 
-    response2 = mfa_type(response2,session).process()
+    response2 = mfa_type.detect(response2,session).process()
 
     saml_xml = get_saml_response(response2.text)
     if not saml_xml:
