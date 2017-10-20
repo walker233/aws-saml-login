@@ -29,12 +29,9 @@
 
             <noscript>The Duo service requires JavaScript.</noscript>          
             <script src="/idp/js/Duo-Web-v2.min.js"></script>
-            <iframe id="duo_iframe"
-                data-host="api-082f11a6.duosecurity.com"
-                data-sig-request="TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODA4NjY=|6e120783743d8172d53d2d50411749d21a585e8e:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDYzODQxNjY=|abe510d7b3683c093f0e3e9dfb2eebb0503b1a5e"
-                data-post-action="/idp/profile/SAML2/Unsolicited/SSO?execution=e1s2"
-                frameborder="0"
-            >
+            <iframe id = "duo_iframe"
+                data-host = "api-main.duo.test" data-sig-request = "..."
+                data-post-action = "/auth" data-post-argument = "resp">
             </iframe>
             <form id="duo_form" method="post">
                 <input type="hidden" name="_eventId" value="proceed" />

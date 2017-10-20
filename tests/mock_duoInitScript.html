@@ -12,11 +12,13 @@
     <!-- end DUO -->
     <script src="/idp/js/Duo-Web-v2.bundled.min.js"></script>
     <script>
-    Duo.init({
-              'host': 'api-082f11a6.duosecurity.com',
-                      'sig_request': 'TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTU2MTQ=|46d3d2c036d08418cb164bdeab226109372ae996:APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE0ODUyOTg5MTQ=|1b197044e7b88213ba2325ce88da4034970ad30d',
-                              'post_argument': 'signedDuoResponse'
-                                    });
+ Duo.init({
+       iframe: "some_other_id",
+       host: "api-main.duo.test",
+       sig_request: "...",
+       post_action: "/auth",
+       post_argument: "resp"
+ });
     </script>
 
 <style>

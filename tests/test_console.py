@@ -102,9 +102,22 @@ def test_duo_selected_response_has_duo_script(monkeypatch):
     duo = mfa.Duo.detect(fr,fSession)
     assert isinstance(duo,mfa.DuoScript)
     response2 = duo.process()
+    attributes = mfa.DuoScript.findAttributes(fr)
+    print(attributes)
+    assert 'iframe' in attributes
+    assert 'host' in attributes
+    assert 'sig_request' in attributes
+    assert 'post_action' in attributes
+    assert 'post_argument' in attributes
 
 def test_duo_selected_response_has_duo_iframe(monkeypatch):
     fr = FakeResponse('tests/mock_duoIframeData.html')
     duo = mfa.Duo.detect(fr,fSession)
     assert isinstance(duo,mfa.DuoIframe)
     response2 = duo.process()
+    attributes = mfa.DuoIframe.findAttributes(fr)
+    assert 'iframe' in attributes
+    assert 'host' in attributes
+    assert 'sig_request' in attributes
+    assert 'post_action' in attributes
+    assert 'post_argument' in attributes
