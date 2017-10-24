@@ -121,3 +121,13 @@ def test_duo_selected_response_has_duo_iframe(monkeypatch):
     assert 'sig_request' in attributes
     assert 'post_action' in attributes
     assert 'post_argument' in attributes
+
+def test_duo_sigParse(monkeypatch):
+    fr = FakeResponse('tests/mock_duoIframeWithData.html')
+    duo = mfa.Duo.detect(fr,fSession)
+    duoSig = "TX|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDg3OTg3MTE=|fee6c90bb13e60851690325255a70b2ced1507b3"
+    appSig = "APP|d3N3aGVlbGVyfERJV0lPUjdGSVdQV0NDSTZXQkVNfDE1MDg4MDIwMTE=|b3f3cd3e90ecd7dd5495cec8a6984539787e5513"
+
+    dSig, aSig = duo.parseSigRequest()
+    assert dSig == duoSig
+    assert aSig == appSig
