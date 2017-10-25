@@ -54,7 +54,7 @@ class DuoScript(Duo):
     @staticmethod
     def getDuoAttributesFromScript(matched):
         attributes = {}
-        for(key,value) in re.findall(r'[\'"]?([\w_]+)[\'"]?:\s*[\'"]([-/\w.]+)[\'"],?\s', matched, re.DOTALL):
+        for(key,value) in re.findall(r'[\'"]?([\w_]+)[\'"]?:\s*[\'"]([^\'"]+)[\'"],?\s', matched, re.DOTALL):
             attributes[key] = value
         return attributes
 
